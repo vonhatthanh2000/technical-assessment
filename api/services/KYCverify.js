@@ -1,4 +1,4 @@
-const { Contract, providers } = require('ethers');
+const { Contract, providers, Wallet } = require('ethers');
 const { KYCverifyABI } = require('../constants/KYCverificationABI.js');
 const {
   validateKYCVerifyRequest,
@@ -21,10 +21,8 @@ async function getProvider() {
 async function getWallet() {
   if (!walletInstance) {
     try {
-      walletInstance = new Wallet(
-        process.env.WALLET_PRIVATE_KEY,
-        await getProvider()
-      );
+      const provider = await getProvider();
+      walletInstance = new Wallet(process.env.WALLET_PRIVATE_KEY, provider);
       console.log(`Wallet initialized: ${walletInstance.address}`);
     } catch (error) {
       console.error('Failed to initialize wallet:', error.message);
@@ -58,6 +56,20 @@ exports.verify = async (request, res) => {
     console.log(`Verifying user ${userAddress} with contract at ${KYCAddress}`);
 
     const contract = await getContract(true);
+    const wallet = await getWallet();
+
+    // Check if the wallet is the admin before attempting verification
+    const currentAdmin = await contract.admin();
+    if (currentAdmin.toLowerCase() !== wallet.address.toLowerCase()) {
+      console.error(
+        `Unauthorized: Wallet ${wallet.address} is not the admin ${currentAdmin}`
+      );
+      return res.status(403).json({
+        message: 'Unauthorized: Only the current admin can verify users',
+        currentAdmin: currentAdmin,
+        walletAddress: wallet.address
+      });
+    }
 
     const isVerified = await contract.checkKYC(userAddress);
     if (isVerified) {
@@ -82,6 +94,12 @@ exports.verify = async (request, res) => {
 
     if (error.message.includes('already verified')) {
       return res.status(400).json({ message: 'User is already verified' });
+    }
+
+    if (error.message.includes('Only admin can call this function')) {
+      return res.status(403).json({
+        message: 'Unauthorized: Only the current admin can verify users'
+      });
     }
 
     if (error.message.includes('insufficient funds')) {

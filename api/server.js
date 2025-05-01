@@ -6,7 +6,12 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const { checkAPIHealth } = require('./services/checkAPIHealth.js');
-const { verify, check } = require('./services/KYCverify.js');
+const {
+  verify,
+  check,
+  changeAdmin,
+  getCurrentAdmin
+} = require('./services/KYCverify.js');
 const connectDB = require('./config/db');
 
 const app = express();
