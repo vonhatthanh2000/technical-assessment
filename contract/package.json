@@ -3,7 +3,8 @@
   "scripts": {
     "compile": "npx hardhat compile",
     "test:contracts": "npx hardhat test tests/*.test.ts",
-    "deploy": "npx hardhat run --network polygon scripts/deploy.ts"
+    "deploy": "npx hardhat run --network polygon scripts/deploy.ts",
+    "deploy:amoy": "npx hardhat run --network amoy scripts/deploy.ts"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
