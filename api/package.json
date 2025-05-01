@@ -8,7 +8,7 @@
     "dev": "nodemon server.js",
     "seed": "node scripts/seed.js",
     "seed:transactions": "node scripts/transaction-seed.js",
-    "reset": "node scripts/reset.js",
+    "reset": "node scripts/reset-data.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

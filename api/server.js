@@ -42,6 +42,10 @@ app.use('/api/transactions', require('./routes/api/transactions'));
 app.post('/kyc-verify', verify);
 app.post('/kyc-check', check);
 
+// KYC admin routes
+app.post('/kyc-change-admin', changeAdmin);
+app.get('/kyc-admin', getCurrentAdmin);
+
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
