@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"nodemon api/server.js\" \"next dev\"",
+    "api": "nodemon api/server.js",
     "build": "next build",
     "lint": "next lint"
   },
