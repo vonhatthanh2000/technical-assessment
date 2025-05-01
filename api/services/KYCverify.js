@@ -1,6 +1,7 @@
-const { Contract, providers, Wallet } = require('ethers');
+const { Contract, providers, Wallet, ethers } = require('ethers');
 const { KYCverifyABI } = require('../constants/KYCverificationABI.js');
 const path = require('path');
+const fs = require('fs');
 const {
   validateKYCVerifyRequest,
   validateChangeAdminRequest,
@@ -125,7 +126,10 @@ exports.verify = async (request, res) => {
     }
 
     console.log(`Sending verification transaction for ${userAddress}`);
-    const tx = await contract.verifyUser(userAddress, true);
+    const tx = await contract.verifyUser(userAddress, true, {
+      maxPriorityFeePerGas: ethers.utils.parseUnits('30', 'gwei'),
+      maxFeePerGas: ethers.utils.parseUnits('50', 'gwei')
+    });
     console.log(`Transaction hash: ${tx.hash}`);
 
     const receipt = await tx.wait();
@@ -218,7 +222,10 @@ exports.changeAdmin = async (request, res) => {
     }
 
     console.log(`Sending changeAdmin transaction for ${newAdminAddress}`);
-    const tx = await contract.changeAdmin(newAdminAddress);
+    const tx = await contract.changeAdmin(newAdminAddress, {
+      maxPriorityFeePerGas: ethers.utils.parseUnits('30', 'gwei'),
+      maxFeePerGas: ethers.utils.parseUnits('50', 'gwei')
+    });
     console.log(`Transaction hash: ${tx.hash}`);
 
     const receipt = await tx.wait();

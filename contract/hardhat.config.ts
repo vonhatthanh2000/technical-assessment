@@ -56,7 +56,7 @@ const config: HardhatUserConfig = {
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
     amoy: {
-      url: "https://polygon-amoy.g.alchemy.com/v2/AmrqP0mmcIj1N6wWbLkfqBogtpUEMblK",
+      url: "https://rpc-amoy.polygon.technology",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
