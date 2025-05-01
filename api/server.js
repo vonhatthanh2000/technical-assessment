@@ -12,6 +12,7 @@ const {
   changeAdmin,
   getCurrentAdmin
 } = require('./services/KYCverify.js');
+const { getWalletInfoEndpoint } = require('./services/walletInfo.js');
 const connectDB = require('./config/db');
 
 const app = express();
@@ -50,6 +51,9 @@ app.post('/kyc-check', check);
 // KYC admin routes
 app.post('/kyc-change-admin', changeAdmin);
 app.get('/kyc-admin', getCurrentAdmin);
+
+// Wallet information route
+app.get('/wallet-info', getWalletInfoEndpoint);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

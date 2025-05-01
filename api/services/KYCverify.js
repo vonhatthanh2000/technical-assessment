@@ -1,5 +1,6 @@
 const { Contract, providers, Wallet } = require('ethers');
 const { KYCverifyABI } = require('../constants/KYCverificationABI.js');
+const path = require('path');
 const {
   validateKYCVerifyRequest,
   validateChangeAdminRequest,
@@ -19,57 +20,11 @@ async function getProvider() {
 }
 
 // METHOD 1: read private_key directly from .env
-async function getWallet() {
-  if (!walletInstance) {
-    try {
-      const provider = await getProvider();
-      walletInstance = new Wallet(process.env.WALLET_PRIVATE_KEY, provider);
-      console.log(`Wallet initialized: ${walletInstance.address}`);
-    } catch (error) {
-      console.error('Failed to initialize wallet:', error.message);
-      throw new Error(`Failed to initialize wallet: ${error.message}`);
-    }
-  }
-  return walletInstance;
-}
-
-// METHOD 2: read keystore file from keystores directory
 // async function getWallet() {
 //   if (!walletInstance) {
 //     try {
 //       const provider = await getProvider();
-
-//       // Use keystore file instead of direct private key
-//       const keystoreName = process.env.KEYSTORE_NAME;
-//       const keystorePassword = process.env.KEYSTORE_PASSWORD;
-
-//       if (!keystoreName) {
-//         throw new Error('KEYSTORE_NAME not found in environment variables');
-//       }
-
-//       if (!keystorePassword) {
-//         throw new Error('KEYSTORE_PASSWORD not found in environment variables');
-//       }
-
-//       const keystorePath = path.join(
-//         __dirname,
-//         '../keystores',
-//         `${keystoreName}.json`
-//       );
-
-//       if (!fs.existsSync(keystorePath)) {
-//         throw new Error(`Keystore file not found: ${keystorePath}`);
-//       }
-
-//       const keystore = fs.readFileSync(keystorePath, 'utf8');
-
-//       // Decrypt the keystore with the password
-//       walletInstance = await Wallet.fromEncryptedJson(
-//         keystore,
-//         keystorePassword
-//       );
-//       walletInstance = walletInstance.connect(provider);
-
+//       walletInstance = new Wallet(process.env.WALLET_PRIVATE_KEY, provider);
 //       console.log(`Wallet initialized: ${walletInstance.address}`);
 //     } catch (error) {
 //       console.error('Failed to initialize wallet:', error.message);
@@ -78,6 +33,52 @@ async function getWallet() {
 //   }
 //   return walletInstance;
 // }
+
+// METHOD 2: read keystore file from keystores directory
+async function getWallet() {
+  if (!walletInstance) {
+    try {
+      const provider = await getProvider();
+
+      // Use keystore file instead of direct private key
+      const keystoreName = process.env.KEYSTORE_NAME;
+      const keystorePassword = process.env.KEYSTORE_PASSWORD;
+
+      if (!keystoreName) {
+        throw new Error('KEYSTORE_NAME not found in environment variables');
+      }
+
+      if (!keystorePassword) {
+        throw new Error('KEYSTORE_PASSWORD not found in environment variables');
+      }
+
+      const keystorePath = path.join(
+        __dirname,
+        '../keystores',
+        `${keystoreName}.json`
+      );
+
+      if (!fs.existsSync(keystorePath)) {
+        throw new Error(`Keystore file not found: ${keystorePath}`);
+      }
+
+      const keystore = fs.readFileSync(keystorePath, 'utf8');
+
+      // Decrypt the keystore with the password
+      walletInstance = await Wallet.fromEncryptedJson(
+        keystore,
+        keystorePassword
+      );
+      walletInstance = walletInstance.connect(provider);
+
+      console.log(`Wallet initialized: ${walletInstance.address}`);
+    } catch (error) {
+      console.error('Failed to initialize wallet:', error.message);
+      throw new Error(`Failed to initialize wallet: ${error.message}`);
+    }
+  }
+  return walletInstance;
+}
 
 async function getContract(needSigner = false) {
   const KYCAddress = process.env.KYC_CONTRACT_ADDRESS;
