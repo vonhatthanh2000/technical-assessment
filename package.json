@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"nodemon api/server.js\" \"next dev\"",
-    "api": "nodemon api/server.js",
+    "api": "cd api && npm run dev",
+    "api:start": "cd api && npm start",
     "build": "next build",
     "lint": "next lint"
   },

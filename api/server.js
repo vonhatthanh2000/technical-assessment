@@ -7,6 +7,7 @@ require('dotenv').config();
 
 const { checkAPIHealth } = require('./services/checkAPIHealth.js');
 const { verify, check } = require('./services/KYCverify.js');
+const connectDB = require('./config/db');
 
 const app = express();
 
@@ -19,6 +20,9 @@ app.use(
     credentials: true
   })
 );
+
+// Connect to Database
+connectDB();
 
 // Init Middleware
 app.use(express.json());
