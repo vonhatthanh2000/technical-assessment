@@ -8,13 +8,12 @@ async function main() {
 
   console.log("KYCVericiation:", kyc_reference.address);
 
-  await sleep(10000);
+  await sleep(15000);
 
   await run("verify:verify", {
     address: kyc_reference.address,
     constructorArguments: [],
   });
-
 }
 
 function sleep(ms: number) {

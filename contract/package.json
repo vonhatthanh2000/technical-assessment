@@ -1,6 +1,8 @@
 {
   "name": "assetcut-contracts",
   "scripts": {
+    "compile": "npx hardhat compile",
+    "test:contracts": "npx hardhat test tests/*.test.ts",
     "deploy": "npx hardhat run --network polygon scripts/deploy.ts"
   },
   "devDependencies": {
