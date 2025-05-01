@@ -185,13 +185,8 @@ function validateBatchVerifyRequest(body) {
 }
 
 module.exports = {
-  isValidEthereumAddress,
-  isValidTransactionHash,
-  isValidChainId,
-  isValidKeystorePath,
-  isValidBoolean,
-  toBoolean,
   validateKYCVerifyRequest,
   validateChangeAdminRequest,
-  validateBatchVerifyRequest
+  isValidEthereumAddress,
+  isValidKeystorePath
 };

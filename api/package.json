@@ -9,6 +9,7 @@
     "seed": "node scripts/seed.js",
     "seed:transactions": "node scripts/transaction-seed.js",
     "reset": "node scripts/reset-data.js",
+    "generate-keystore": "node scripts/generate-keystore.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
