@@ -9,9 +9,23 @@ const { checkAPIHealth } = require('./services/checkAPIHealth.js');
 const { verify, check } = require('./services/KYCverify.js');
 
 const app = express();
+
+// CORS configuration
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
+    credentials: true
+  })
+);
+
 // Init Middleware
 app.use(express.json());
 app.use(cookieParser());
+
+// Check health
+app.get('/health', checkAPIHealth);
 
 // Define Routes
 app.use('/api/users', require('./routes/api/users'));
@@ -19,9 +33,8 @@ app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/profile', require('./routes/api/profile'));
 app.use('/api/posts', require('./routes/api/posts'));
 
-app.get('/health', checkAPIHealth);
+// KYC features
 app.post('/kyc-verify', verify);
-
 app.post('/kyc-check', check);
 
 // Serve static assets in production

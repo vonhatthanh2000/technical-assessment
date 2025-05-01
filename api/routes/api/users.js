@@ -7,7 +7,6 @@ const config = require('config');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
-const auth = require('../../middleware/auth');
 const normalizeUrl = require('../../utils/normalize-url');
 
 // @route    POST api/users
