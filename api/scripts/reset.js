@@ -3,6 +3,7 @@ const config = require('config');
 const User = require('../models/User');
 const Profile = require('../models/Profile');
 const Post = require('../models/Post');
+const Transaction = require('../models/Transaction');
 
 // Connect to MongoDB
 mongoose.connect(config.get('mongoURI'), {
@@ -18,6 +19,7 @@ const resetDatabase = async () => {
     await User.deleteMany({});
     await Profile.deleteMany({});
     await Post.deleteMany({});
+    await Transaction.deleteMany({});
 
     console.log('Database reset successfully');
     process.exit(0);
