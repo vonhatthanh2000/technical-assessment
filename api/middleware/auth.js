@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const config = require('config');
+
 const {
   callEthContract,
   callPolygonContract,
@@ -102,7 +104,7 @@ module.exports = function (req, res, next) {
       }
     });
   } catch (err) {
-    console.error('something wrong with auth middleware');
+    console.error('auth middleware error', err.message);
     res.status(500).json({ msg: 'Server Error' });
   }
 };

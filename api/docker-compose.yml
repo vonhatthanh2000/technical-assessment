@@ -8,9 +8,4 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=password
       - MONGO_INITDB_DATABASE=app_db
-    volumes:
-      - mongodb_data:/data/db
     restart: always
-
-volumes:
-  mongodb_data:
